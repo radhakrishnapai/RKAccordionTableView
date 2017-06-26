@@ -1,0 +1,22 @@
+{
+  "name": "RKAccordionTableView",
+  "version": "0.1.0",
+  "summary": "A short description of RKAccordionTableView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Radhakrishna Pai/RKAccordionTableView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Radhakrishna Pai": "radhakrishnapai09@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Radhakrishna Pai/RKAccordionTableView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "RKAccordionTableView/Classes/**/*"
+}

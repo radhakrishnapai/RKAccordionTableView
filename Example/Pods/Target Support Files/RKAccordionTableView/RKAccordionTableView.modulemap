@@ -1,0 +1,6 @@
+framework module RKAccordionTableView {
+  umbrella header "RKAccordionTableView-umbrella.h"
+
+  export *
+  module * { export * }
+}

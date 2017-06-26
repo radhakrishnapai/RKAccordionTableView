@@ -1,0 +1,16 @@
+PODS:
+  - RKAccordionTableView (0.1.0)
+
+DEPENDENCIES:
+  - RKAccordionTableView (from `../`)
+
+EXTERNAL SOURCES:
+  RKAccordionTableView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  RKAccordionTableView: 94286d3dd1c33363da724b46fdde1e15cd9b9052
+
+PODFILE CHECKSUM: c1bcb756895843d1bc1e7208483e6a3cd8f81211
+
+COCOAPODS: 1.2.1

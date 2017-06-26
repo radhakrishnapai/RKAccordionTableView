@@ -1,0 +1,6 @@
+framework module Pods_RKAccordionTableView_Example {
+  umbrella header "Pods-RKAccordionTableView_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'RKAccordionTableView_Example' do
+  pod 'RKAccordionTableView', :path => '../'
+
+  target 'RKAccordionTableView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
