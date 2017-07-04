@@ -258,14 +258,20 @@
             if (fromSectionNumber == toSectionNumber) {
                 [self.accordionTableView reloadData];
             } else {
-                if([self.accordionDataSource respondsToSelector:@selector(moveSection:toSection:)]) {
+                if([self.accordionDataSource respondsToSelector:@selector(tableView:moveSection:toSection:)]) {
                     fromSectionNumber = accordionObjectFrom.sectionNumber;
                     toSectionNumber = accordionObjectTo.sectionNumber;
+                    
+                    
+                    _isExpandedArray[fromSectionNumber] = @(accordionObjectTo.isExpanded);
+                    _isExpandedArray[toSectionNumber] = @(accordionObjectFrom.isExpanded);
+                    
                     [self.accordionDataSource tableView:self.accordionTableView moveSection:fromSectionNumber toSection:toSectionNumber];
                 }
             }
         }
         [self.accordionTableView reloadValues];
+        [self restoreExpandedState];
     } else {
         NSInteger fromRowNumber = accordionObjectFrom.rowNumber, toRowNumber = accordionObjectTo.rowNumber;
         if (accordionObjectTo.isSection == YES) {
@@ -474,7 +480,7 @@
     }
     
     if (accordionObject) {
-        
+        [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
             NSMutableArray *indexPaths = [NSMutableArray new];
             NSInteger numberOfRows = accordionObject.numberOfRows;
             NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionObject] inSection:0];
