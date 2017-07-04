@@ -76,7 +76,7 @@
 
 - (void)layoutSubviews
 {
-//    self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     [self setAndHideReorderControl];
 }
 

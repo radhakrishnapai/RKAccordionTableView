@@ -24,8 +24,12 @@
 
 @protocol RKAccordionTableViewDelegate <NSObject>
 @required
-- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForSectionAtIndexPath:(NSIndexPath *)indexPath;
-- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForSection:(NSInteger)sectionNumber;
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+@optional
+- (BOOL)accordion:(RKAccordionTableView *)tableView isFooterRequiredInSection:(NSInteger)sectionNumber;
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForFooterInSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForFooterInSection:(NSInteger)sectionNumber;
 
 @end
 
@@ -33,11 +37,11 @@
 @required
 - (NSInteger)numberOfSectionsInAccordion:(RKAccordionTableView *)tableView;
 - (NSInteger)numberOfRowsInSection:(NSInteger)section accordion:(RKAccordionTableView *)tableView;
-- (RKAccordionCell *)tableView:(RKAccordionTableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath row:(NSInteger)row;
-- (RKAccordionCell *)tableView:(RKAccordionTableView *)tableView cellForSectionAtIndexPath:(NSIndexPath *)indexPath section:(NSInteger)section;
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForSection:(NSInteger)sectionNumber;
 @optional
-- (void)tableView:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
-- (void)tableView:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber;
-- (BOOL)tableView:(RKAccordionTableView *)tableView canMoveRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
-- (BOOL)tableView:(RKAccordionTableView *)tableView canMoveSection:(NSInteger)sectionNumber;
+- (void)accordion:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
+- (void)accordion:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber;
+- (BOOL)accordion:(RKAccordionTableView *)tableView canMoveRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+- (BOOL)accordion:(RKAccordionTableView *)tableView canMoveSection:(NSInteger)sectionNumber;
 @end

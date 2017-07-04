@@ -42,12 +42,16 @@
 
 #pragma mark RKAccordionTableViewDelegate
 
-- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForSectionAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForSection:(NSInteger)sectionNumber {
     return 88;
 }
 
-- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40;
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    return 44;
+}
+
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForFooterInSection:(NSInteger)sectionNumber {
+    return 44;
 }
 
 #pragma mark RKAccordionTableViewDataSource
@@ -77,32 +81,42 @@
     }
 }
 
-- (UITableViewCell *)tableView:(RKAccordionTableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath row:(NSInteger)row {
-    CustomRowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomRowCell"];
-    cell.label.text = [NSString stringWithFormat:@"%ld", (long)row];
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {    CustomRowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomRowCell"];
+    cell.label.text = [NSString stringWithFormat:@"%ld", (long)rowNumber];
     cell.backgroundColor = [UIColor yellowColor];
     return cell;
 }
 
-- (UITableViewCell *)tableView:(RKAccordionTableView *)tableView cellForSectionAtIndexPath:(NSIndexPath *)indexPath section:(NSInteger)section {
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForSection:(NSInteger)sectionNumber {
     CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
-    cell.label.text = [NSString stringWithFormat:@"%ld", (long)section];
+    cell.label.text = [NSString stringWithFormat:@"%ld", (long)sectionNumber];
     cell.actionBlock = ^() {
-        [tableView tapActionForSection:section];
+        [tableView tapActionForSection:sectionNumber];
     };
     cell.backgroundColor = [UIColor redColor];
     return cell;
 }
 
-- (BOOL)tableView:(RKAccordionTableView *)tableView canMoveRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForFooterInSection:(NSInteger)sectionNumber {
+    CustomRowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomRowCell"];
+    cell.label.text = [NSString stringWithFormat:@"%ld", (long)sectionNumber];
+    cell.backgroundColor = [UIColor greenColor];
+    return cell;
+}
+
+- (BOOL)accordion:(RKAccordionTableView *)tableView canMoveRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
     return YES;
 }
 
-- (BOOL)tableView:(RKAccordionTableView *)tableView canMoveSection:(NSInteger)sectionNumber {
+- (BOOL)accordion:(RKAccordionTableView *)tableView canMoveSection:(NSInteger)sectionNumber {
     return YES;
 }
 
-- (void)tableView:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber {
+- (BOOL)accordion:(RKAccordionTableView *)tableView isFooterRequiredInSection:(NSInteger)sectionNumber {
+    return YES;
+}
+
+- (void)accordion:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber {
     NSInteger numberOfRowsInfromSection = ((NSNumber *)array[fromSectionNumber]).integerValue;
     NSInteger numberOfRowsIntoSection = ((NSNumber *)array[toSectionNumber]).integerValue;
     if (fromSectionNumber == toSectionNumber) {
@@ -116,7 +130,7 @@
     
 }
 
-- (void)tableView:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
+- (void)accordion:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
     NSInteger numberOfRowsInfromSection = ((NSNumber *)array[fromSectionNumber]).integerValue;
     NSInteger numberOfRowsIntoSection = ((NSNumber *)array[toSectionNumber]).integerValue;
     array[fromSectionNumber] = @(numberOfRowsIntoSection);
