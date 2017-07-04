@@ -46,4 +46,8 @@
     [self.rkAccordionTableViewController reloadValues];
 }
 
+- (void)tapActionForSection:(NSInteger)section {
+    [self.rkAccordionTableViewController tapActionForSection:section];
+}
+
 @end

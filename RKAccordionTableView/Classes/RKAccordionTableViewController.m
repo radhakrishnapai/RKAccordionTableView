@@ -157,8 +157,8 @@
     if (accordionObject.isSection == YES) {
         if (self.accordionDataSource) {
             RKAccordionCell *cell = [self.accordionDataSource tableView:self.accordionTableView cellForSectionAtIndexPath:indexPath section:accordionObject.sectionNumber];
-            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recogniozerDidTap:)];
-            [cell addGestureRecognizer:tapGestureRecognizer];
+//            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recogniozerDidTap:)];
+//            [cell addGestureRecognizer:tapGestureRecognizer];
             return cell;
         } else {
             return [[UITableViewCell alloc] init];
@@ -412,8 +412,49 @@
     }
 }
 
-- (void)tappedOnButton:(id)sender {
-    
+- (void)tapActionForSection:(NSInteger)section {
+    if (_isExpandedArray == nil) {
+        _isExpandedArray = [NSMutableArray new];
+        for (id object in _rkAccordionObjectArray) {
+            [_isExpandedArray addObject:@0];
+        }
+    }
+//    UITableViewCell *cell = (UITableViewCell *)sender.view;
+//    NSIndexPath *indexPath = [self.accordionTableView indexPathForCell:cell];
+    RKAccordionObject *accordionSectionObject = [self objectForSection:section];
+    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    if (accordionSectionObject.isExpanded == YES) {
+        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
+        if (numberOfRows != 0) {
+            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@0];
+            accordionSectionObject.isExpanded = NO;
+            for (NSInteger i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+            [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            //            [self.accordionTableView reloadData];
+        }
+    } else {
+        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
+        
+        if (numberOfRows != 0) {
+            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
+            accordionSectionObject.isExpanded = YES;
+            for (NSInteger i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
+                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+                accordionObject.rowNumber = i - sectionIndexPath.row - 1;
+                accordionObject.isSection = NO;
+                [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+            [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            //            [self.accordionTableView reloadData];
+        }
+    }
 }
 
 

@@ -19,4 +19,5 @@
 @property (nonatomic, weak) RKAccordionTableView *accordionTableView;
 
 - (void)reloadValues;
+- (void)tapActionForSection:(NSInteger)section;
 @end

@@ -9,6 +9,7 @@
 #import "RKViewController.h"
 #import "RKAccordionTableView.h"
 #import "CustomCell.h"
+#import "CustomRowCell.h"
 
 @interface RKViewController ()<RKAccordionTableViewDelegate, RKAccordionTableViewDataSource> {
     NSMutableArray *array;
@@ -26,6 +27,7 @@
     self.tableView.accordionDelegate = self;
     self.tableView.accordionDataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"CustomCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CustomRowCell" bundle:nil] forCellReuseIdentifier:@"CustomRowCell"];
     [self.tableView setEditing:YES animated:NO];
     array = [NSMutableArray arrayWithArray:@[@3, @2, @1, @0]];
     [self.tableView reloadValues];
@@ -41,7 +43,7 @@
 #pragma mark RKAccordionTableViewDelegate
 
 - (CGFloat)accordion:(RKAccordionTableView *)tableView heightForSectionAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return 88;
 }
 
 - (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,7 +78,7 @@
 }
 
 - (UITableViewCell *)tableView:(RKAccordionTableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath row:(NSInteger)row {
-    CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
+    CustomRowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomRowCell"];
     cell.label.text = [NSString stringWithFormat:@"%ld", (long)row];
     cell.backgroundColor = [UIColor yellowColor];
     return cell;
@@ -85,6 +87,9 @@
 - (UITableViewCell *)tableView:(RKAccordionTableView *)tableView cellForSectionAtIndexPath:(NSIndexPath *)indexPath section:(NSInteger)section {
     CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
     cell.label.text = [NSString stringWithFormat:@"%ld", (long)section];
+    cell.actionBlock = ^() {
+        [tableView tapActionForSection:section];
+    };
     cell.backgroundColor = [UIColor redColor];
     return cell;
 }

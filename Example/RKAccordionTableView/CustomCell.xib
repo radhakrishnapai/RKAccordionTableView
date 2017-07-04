@@ -31,19 +31,39 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YbD-dg-Fko">
+                        <rect key="frame" x="274" y="28" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="fE5-l0-pwq"/>
+                            <constraint firstAttribute="width" constant="30" id="urJ-Oa-zAx"/>
+                        </constraints>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" image="Down_Arrow_Icon">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="tappedOnButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="819-9D-Ej7"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="YbD-dg-Fko" secondAttribute="trailing" constant="16" id="0YH-ga-6Ll"/>
                     <constraint firstItem="gld-i7-p3V" firstAttribute="leading" secondItem="Mzd-iK-bxO" secondAttribute="trailing" constant="14.5" id="5Q8-Ms-UCr"/>
                     <constraint firstItem="Mzd-iK-bxO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="C4U-Ai-IuI"/>
                     <constraint firstAttribute="bottom" secondItem="Mzd-iK-bxO" secondAttribute="bottom" constant="5" id="RA4-qE-EfY"/>
                     <constraint firstItem="Mzd-iK-bxO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="gRM-mI-Id1"/>
                     <constraint firstItem="gld-i7-p3V" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hX1-tx-zB4"/>
+                    <constraint firstItem="YbD-dg-Fko" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ykL-oR-FoK"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="arrowButton" destination="YbD-dg-Fko" id="tQ6-Lq-5Ch"/>
                 <outlet property="label" destination="gld-i7-p3V" id="3P1-H9-5qK"/>
             </connections>
             <point key="canvasLocation" x="34" y="32"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Down_Arrow_Icon" width="64" height="64"/>
+    </resources>
 </document>

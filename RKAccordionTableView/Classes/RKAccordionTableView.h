@@ -18,7 +18,7 @@
 @property (nonatomic, strong) id<RKAccordionTableViewDataSource> accordionDataSource;
 
 - (void)reloadValues;
-
+- (void)tapActionForSection:(NSInteger)section;
 @end
 
 @protocol RKAccordionTableViewDelegate <NSObject>

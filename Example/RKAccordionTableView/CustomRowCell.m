@@ -1,14 +1,14 @@
 //
-//  CustomCell.m
+//  CustomRowCell.m
 //  RKAccordionTableView
 //
 //  Created by Pai on 7/4/17.
 //  Copyright © 2017 Radhakrishna Pai. All rights reserved.
 //
 
-#import "CustomCell.h"
+#import "CustomRowCell.h"
 
-@implementation CustomCell
+@implementation CustomRowCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -21,7 +21,4 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)tappedOnButton:(id)sender {
-    _actionBlock(_indexPath);
-}
 @end
