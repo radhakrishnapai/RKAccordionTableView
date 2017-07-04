@@ -438,8 +438,13 @@
             //            [self.accordionTableView reloadData];
         }
     } else {
+        if (self.accordionTableView.allowMultipleSectionsOpen == NO) {
+            [self removePreviousSections];
+        }
+        RKAccordionObject *accordionSectionObject = [self objectForSection:section];
+        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
+        NSMutableArray *indexPaths = [NSMutableArray new];
         NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-        
         if (numberOfRows != 0) {
             [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
             accordionSectionObject.isExpanded = YES;
@@ -457,5 +462,33 @@
     }
 }
 
+- (void)removePreviousSections {
+    RKAccordionObject *accordionObject =  nil;
+    for (RKAccordionObject *accordionSectionObject in _rkAccordionObjectArray) {
+        if (accordionSectionObject.isSection == YES) {
+            if (accordionSectionObject.isExpanded == YES) {
+            accordionObject = accordionSectionObject;
+            break;
+            }
+        }
+    }
+    
+    if (accordionObject) {
+        
+            NSMutableArray *indexPaths = [NSMutableArray new];
+            NSInteger numberOfRows = accordionObject.numberOfRows;
+            NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionObject] inSection:0];
+            if (numberOfRows != 0) {
+                [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+                accordionObject.isExpanded = NO;
+                for (NSInteger i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                    [indexPaths addObject:indexPath];
+                }
+                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
+}
 
 @end

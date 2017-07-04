@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) id<RKAccordionTableViewDelegate> accordionDelegate;
 @property (nonatomic, strong) id<RKAccordionTableViewDataSource> accordionDataSource;
+@property (nonatomic, assign) BOOL allowMultipleSectionsOpen;
 
 - (void)reloadValues;
 - (void)tapActionForSection:(NSInteger)section;
