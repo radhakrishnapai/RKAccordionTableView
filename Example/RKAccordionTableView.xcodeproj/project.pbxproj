@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		16FCD0644D8EFF8239D1A604 /* Pods_RKAccordionTableView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 357206209B2DB8E70BD48866 /* Pods_RKAccordionTableView_Tests.framework */; };
+		2FCFB1E51F0B9C0700D3C40F /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFB1E31F0B9C0700D3C40F /* CustomCell.m */; };
+		2FCFB1E61F0B9C0700D3C40F /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCFB1E41F0B9C0700D3C40F /* CustomCell.xib */; };
 		323A6DEF8CFCF6C22BA3E36D /* Pods_RKAccordionTableView_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD03074292B408CAA6D3752 /* Pods_RKAccordionTableView_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -37,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2FCFB1E21F0B9C0700D3C40F /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		2FCFB1E31F0B9C0700D3C40F /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		2FCFB1E41F0B9C0700D3C40F /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		357206209B2DB8E70BD48866 /* Pods_RKAccordionTableView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RKAccordionTableView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40FC513CC0AEE1C8F0B00F78 /* Pods-RKAccordionTableView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RKAccordionTableView_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RKAccordionTableView_Tests/Pods-RKAccordionTableView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* RKAccordionTableView_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKAccordionTableView_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,14 +63,14 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		632C5E60B3FB2FFC9A170905 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		632C5E60B3FB2FFC9A170905 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8A1BEA362BFB868EA280B451 /* Pods-RKAccordionTableView_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RKAccordionTableView_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RKAccordionTableView_Example/Pods-RKAccordionTableView_Example.release.xcconfig"; sourceTree = "<group>"; };
-		8C02DDC2B789E53BC89BAEDD /* RKAccordionTableView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = RKAccordionTableView.podspec; path = ../RKAccordionTableView.podspec; sourceTree = "<group>"; };
+		8C02DDC2B789E53BC89BAEDD /* RKAccordionTableView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RKAccordionTableView.podspec; path = ../RKAccordionTableView.podspec; sourceTree = "<group>"; };
 		B8D1A49FDAED8C27DC93D21E /* Pods-RKAccordionTableView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RKAccordionTableView_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RKAccordionTableView_Example/Pods-RKAccordionTableView_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CDD03074292B408CAA6D3752 /* Pods_RKAccordionTableView_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RKAccordionTableView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4D4FCCEC97F1AE276585684 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		F4D4FCCEC97F1AE276585684 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FEA8929B37A0C9EE032FE9F8 /* Pods-RKAccordionTableView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RKAccordionTableView_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RKAccordionTableView_Tests/Pods-RKAccordionTableView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,6 +142,9 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* RKViewController.h */,
 				6003F5A6195388D20070C39A /* RKViewController.m */,
+				2FCFB1E21F0B9C0700D3C40F /* CustomCell.h */,
+				2FCFB1E31F0B9C0700D3C40F /* CustomCell.m */,
+				2FCFB1E41F0B9C0700D3C40F /* CustomCell.xib */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -247,7 +255,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RK;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Radhakrishna Pai";
 				TargetAttributes = {
 					6003F5AD195388D20070C39A = {
@@ -279,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FCFB1E61F0B9C0700D3C40F /* CustomCell.xib in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
@@ -396,6 +405,7 @@
 			files = (
 				6003F59E195388D20070C39A /* RKAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* RKViewController.m in Sources */,
+				2FCFB1E51F0B9C0700D3C40F /* CustomCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,14 +469,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -499,13 +514,18 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

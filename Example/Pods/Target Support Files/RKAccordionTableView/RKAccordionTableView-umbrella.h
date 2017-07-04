@@ -10,6 +10,10 @@
 #endif
 #endif
 
+#import "RKAccordionCell.h"
+#import "RKAccordionObject.h"
+#import "RKAccordionTableView.h"
+#import "RKAccordionTableViewController.h"
 
 FOUNDATION_EXPORT double RKAccordionTableViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char RKAccordionTableViewVersionString[];

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomCell" rowHeight="88" id="KGk-i7-Jjw" customClass="CustomCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="87.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mzd-iK-bxO">
+                        <rect key="frame" x="5" y="5" width="77.5" height="77.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Mzd-iK-bxO" secondAttribute="height" id="eCU-LM-OYT"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gld-i7-p3V">
+                        <rect key="frame" x="97" y="33" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gld-i7-p3V" firstAttribute="leading" secondItem="Mzd-iK-bxO" secondAttribute="trailing" constant="14.5" id="5Q8-Ms-UCr"/>
+                    <constraint firstItem="Mzd-iK-bxO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="C4U-Ai-IuI"/>
+                    <constraint firstAttribute="bottom" secondItem="Mzd-iK-bxO" secondAttribute="bottom" constant="5" id="RA4-qE-EfY"/>
+                    <constraint firstItem="Mzd-iK-bxO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="gRM-mI-Id1"/>
+                    <constraint firstItem="gld-i7-p3V" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hX1-tx-zB4"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="label" destination="gld-i7-p3V" id="3P1-H9-5qK"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="32"/>
+        </tableViewCell>
+    </objects>
+</document>
