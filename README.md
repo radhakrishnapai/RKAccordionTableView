@@ -17,6 +17,7 @@ RKAccordionTableView is an advanced accordion built upon `UITableView`.
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+iOS 8.0+, Objective C.
 
 ## Installation
 
