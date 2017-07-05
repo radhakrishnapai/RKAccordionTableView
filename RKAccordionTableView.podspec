@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 RKAccordionTableView is an advanced accordion built upon `UITableView`. Users can decide the action to be done on a section to expand/collapse. It can be a button at the side, or a tap action on the section, its upto you. You can enable/disable reordering for each row or section. Reorder is done by tap and drag action on an accordion row/section. Additionally there is an option to toggle Footer views in each section. Footers cannot be reordered.
                        DESC
 
-  s.homepage         = 'https://github.com/Radhakrishna Pai/RKAccordionTableView'
+  s.homepage         = 'https://github.com/radhakrishnapai/RKAccordionTableView'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Radhakrishna Pai' => 'radhakrishnapai09@gmail.com' }
-  s.source           = { :git => 'https://github.com/radhakrishnapai/RKAccordionTableView', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/radhakrishnapai/RKAccordionTableView.git’, :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
