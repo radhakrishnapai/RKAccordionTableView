@@ -433,7 +433,7 @@
 - (void)recogniozerDidTap:(UITapGestureRecognizer *)recognizer {
     if (_isExpandedArray == nil) {
         _isExpandedArray = [NSMutableArray new];
-        for (id object in _rkAccordionObjectArray) {
+        for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
             [_isExpandedArray addObject:@0];
         }
     }
@@ -477,7 +477,7 @@
 - (void)tapActionForSection:(NSInteger)section {
     if (_isExpandedArray == nil) {
         _isExpandedArray = [NSMutableArray new];
-        for (id object in _rkAccordionObjectArray) {
+        for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
             [_isExpandedArray addObject:@0];
         }
     }
