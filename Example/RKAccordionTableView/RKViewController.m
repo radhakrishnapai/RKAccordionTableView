@@ -10,6 +10,7 @@
 #import "RKAccordionTableView.h"
 #import "CustomCell.h"
 #import "CustomRowCell.h"
+#import "CustomFooterCell.h"
 
 @interface RKViewController ()<RKAccordionTableViewDelegate, RKAccordionTableViewDataSource> {
     NSMutableArray *array;
@@ -28,6 +29,7 @@
     self.tableView.accordionDataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"CustomCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"CustomRowCell" bundle:nil] forCellReuseIdentifier:@"CustomRowCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CustomFooterCell" bundle:nil] forCellReuseIdentifier:@"CustomFooterCell"];
     [self.tableView setEditing:YES animated:NO];
     array = [NSMutableArray arrayWithArray:@[@3, @2, @1, @0]];
     [self.tableView reloadValues];
@@ -98,8 +100,8 @@
 }
 
 - (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForFooterInSection:(NSInteger)sectionNumber {
-    CustomRowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomRowCell"];
-    cell.label.text = [NSString stringWithFormat:@"%ld", (long)sectionNumber];
+    CustomFooterCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomFooterCell"];
+    cell.label.text = [NSString stringWithFormat:@"Footer: %ld", (long)sectionNumber];
     cell.backgroundColor = [UIColor greenColor];
     return cell;
 }
@@ -131,10 +133,13 @@
 }
 
 - (void)accordion:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
-    NSInteger numberOfRowsInfromSection = ((NSNumber *)array[fromSectionNumber]).integerValue;
-    NSInteger numberOfRowsIntoSection = ((NSNumber *)array[toSectionNumber]).integerValue;
-    array[fromSectionNumber] = @(numberOfRowsIntoSection);
-    array[toSectionNumber] = @(numberOfRowsInfromSection);
+//    NSInteger numberOfRowsInfromSection = ((NSNumber *)array[fromSectionNumber]).integerValue;
+//    NSInteger numberOfRowsIntoSection = ((NSNumber *)array[toSectionNumber]).integerValue;
+    NSNumber *numberOfRowsInSection = array[fromSectionNumber];
+//    array[fromSectionNumber] = @(numberOfRowsIntoSection);
+//    array[toSectionNumber] = @(numberOfRowsInfromSection);
+    [array removeObjectAtIndex:fromSectionNumber];
+    [array insertObject:numberOfRowsInSection atIndex:toSectionNumber];
 }
 
 @end

@@ -138,16 +138,16 @@
                     [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
                     [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 }
-                if (accordionSectionObject.isFooterRequired) {
-                    [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
-                    accordionSectionObject.isExpanded = YES;
-                    RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                    accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                    accordionObject.objectType = AccordionFooter;
-                    [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
-                    [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                }
 //                [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+            }
+            if (accordionSectionObject.isFooterRequired) {
+                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
+                accordionSectionObject.isExpanded = YES;
+                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+                accordionObject.objectType = AccordionFooter;
+                [_rkAccordionObjectArray insertObject:accordionObject atIndex:row+numberOfRows+1];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }
     }
@@ -309,9 +309,11 @@
                     fromSectionNumber = accordionObjectFrom.sectionNumber;
                     toSectionNumber = accordionObjectTo.sectionNumber;
                     
-                    
-                    _isExpandedArray[fromSectionNumber] = @(accordionObjectTo.isExpanded);
-                    _isExpandedArray[toSectionNumber] = @(accordionObjectFrom.isExpanded);
+                    NSNumber *fromSectionExpandedState = _isExpandedArray[fromSectionNumber];
+//                    _isExpandedArray[fromSectionNumber] = @(accordionObjectTo.isExpanded);
+                    [_isExpandedArray removeObjectAtIndex:fromSectionNumber];
+                    [_isExpandedArray insertObject:fromSectionExpandedState atIndex:toSectionNumber];
+//                    _isExpandedArray[toSectionNumber] = @(accordionObjectFrom.isExpanded);
                     
                     [self.accordionDataSource accordion:self.accordionTableView moveSection:fromSectionNumber toSection:toSectionNumber];
                 }
@@ -336,20 +338,27 @@
             if (fromRowNumber == toRowNumber) {
                 [self.accordionTableView reloadData];
             } else {
+                if (accordionObjectTo.objectType == AccordionFooter) {
+                    [self.accordionTableView reloadData];
+                }else {
                 if([self.accordionDataSource respondsToSelector:@selector(accordion:moveRow:inSection:toRow:inSection:)]) {
                     [self.accordionDataSource accordion:self.accordionTableView moveRow:fromRowNumber inSection:fromSectionNumber toRow:toRowNumber inSection:toSectionNumber];
                 }
                 [self.accordionTableView reloadValues];
                 [self restoreExpandedState];
+                }
             }
            
         } else {
-            
+            if (accordionObjectTo.objectType == AccordionFooter) {
+                [self.accordionTableView reloadData];
+            } else {
             if([self.accordionDataSource respondsToSelector:@selector(accordion:moveRow:inSection:toRow:inSection:)]) {
                 [self.accordionDataSource accordion:self.accordionTableView moveRow:fromRowNumber inSection:fromSectionNumber toRow:toRowNumber inSection:toSectionNumber];
             }
             [self.accordionTableView reloadValues];
             [self restoreExpandedState];
+            }
         }
 //            accordionObjectFrom = [_rkAccordionObjectArray objectAtIndex:fromSectionNumber];
 //            accordionObjectFrom.isExpanded = YES;
