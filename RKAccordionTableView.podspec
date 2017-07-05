@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RKAccordionTableView'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of RKAccordionTableView.'
+  s.version          = '1.0.0'
+  s.summary          = 'An Advanced accordion for iOS.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+RKAccordionTableView is an advanced accordion built upon `UITableView`. Users can decide the action to be done on a section to expand/collapse. It can be a button at the side, or a tap action on the section, its upto you. You can enable/disable reordering for each row or section. Reorder is done by tap and drag action on an accordion row/section. Additionally there is an option to toggle Footer views in each section. Footers cannot be reordered.
                        DESC
 
   s.homepage         = 'https://github.com/Radhakrishna Pai/RKAccordionTableView'

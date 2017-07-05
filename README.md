@@ -5,6 +5,13 @@
 [![License](https://img.shields.io/cocoapods/l/RKAccordionTableView.svg?style=flat)](http://cocoapods.org/pods/RKAccordionTableView)
 [![Platform](https://img.shields.io/cocoapods/p/RKAccordionTableView.svg?style=flat)](http://cocoapods.org/pods/RKAccordionTableView)
 
+## Info
+
+RKAccordionTableView is an advanced accordion built upon `UITableView`. 
+- Users can decide the action to be done on a section to expand/collapse. It can be a button at the side, or a tap action on the section, its upto you. 
+- You can enable/disable reordering for each row or section. Reorder is done by tap and drag action on an accordion row/section.
+- Additionally there is an option to toggle Footer views in each section. Footers cannot be reordered.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		16FCD0644D8EFF8239D1A604 /* Pods_RKAccordionTableView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 357206209B2DB8E70BD48866 /* Pods_RKAccordionTableView_Tests.framework */; };
+		2F8F2AFC1F0CBED900A3A0E9 /* CustomFooterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8F2AFA1F0CBED900A3A0E9 /* CustomFooterCell.m */; };
+		2F8F2AFD1F0CBED900A3A0E9 /* CustomFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F8F2AFB1F0CBED900A3A0E9 /* CustomFooterCell.xib */; };
 		2FCFB1E51F0B9C0700D3C40F /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFB1E31F0B9C0700D3C40F /* CustomCell.m */; };
 		2FCFB1E61F0B9C0700D3C40F /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCFB1E41F0B9C0700D3C40F /* CustomCell.xib */; };
 		2FCFB1EA1F0BB9E500D3C40F /* CustomRowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFB1E81F0BB9E500D3C40F /* CustomRowCell.m */; };
@@ -41,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F8F2AF91F0CBED900A3A0E9 /* CustomFooterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFooterCell.h; sourceTree = "<group>"; };
+		2F8F2AFA1F0CBED900A3A0E9 /* CustomFooterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFooterCell.m; sourceTree = "<group>"; };
+		2F8F2AFB1F0CBED900A3A0E9 /* CustomFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomFooterCell.xib; sourceTree = "<group>"; };
 		2FCFB1E21F0B9C0700D3C40F /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		2FCFB1E31F0B9C0700D3C40F /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		2FCFB1E41F0B9C0700D3C40F /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
@@ -153,6 +158,9 @@
 				2FCFB1E71F0BB9E500D3C40F /* CustomRowCell.h */,
 				2FCFB1E81F0BB9E500D3C40F /* CustomRowCell.m */,
 				2FCFB1E91F0BB9E500D3C40F /* CustomRowCell.xib */,
+				2F8F2AF91F0CBED900A3A0E9 /* CustomFooterCell.h */,
+				2F8F2AFA1F0CBED900A3A0E9 /* CustomFooterCell.m */,
+				2F8F2AFB1F0CBED900A3A0E9 /* CustomFooterCell.xib */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -298,6 +306,7 @@
 				2FCFB1E61F0B9C0700D3C40F /* CustomCell.xib in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				2F8F2AFD1F0CBED900A3A0E9 /* CustomFooterCell.xib in Resources */,
 				2FCFB1EB1F0BB9E500D3C40F /* CustomRowCell.xib in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -417,6 +426,7 @@
 				2FCFB1EA1F0BB9E500D3C40F /* CustomRowCell.m in Sources */,
 				2FCFB1E51F0B9C0700D3C40F /* CustomCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				2F8F2AFC1F0CBED900A3A0E9 /* CustomFooterCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
