@@ -1,6 +1,6 @@
 # RKAccordionTableView
 
-[![CI Status](http://img.shields.io/travis/Radhakrishna Pai/RKAccordionTableView.svg?style=flat)](https://travis-ci.org/Radhakrishna Pai/RKAccordionTableView)
+[![CI Status](http://img.shields.io/travis/radhakrishnapai/RKAccordionTableView.svg?style=flat)](https://travis-ci.org/radhakrishnapai/RKAccordionTableView)
 [![Version](https://img.shields.io/cocoapods/v/RKAccordionTableView.svg?style=flat)](http://cocoapods.org/pods/RKAccordionTableView)
 [![License](https://img.shields.io/cocoapods/l/RKAccordionTableView.svg?style=flat)](http://cocoapods.org/pods/RKAccordionTableView)
 [![Platform](https://img.shields.io/cocoapods/p/RKAccordionTableView.svg?style=flat)](http://cocoapods.org/pods/RKAccordionTableView)
