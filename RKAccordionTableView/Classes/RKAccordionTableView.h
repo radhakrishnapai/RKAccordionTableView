@@ -20,6 +20,9 @@
 
 - (void)reloadValues;
 - (void)tapActionForSection:(NSInteger)section;
+- (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+- (void)scrollToFooterInSection:(NSInteger)sectionNumber;
+
 @end
 
 @protocol RKAccordionTableViewDelegate <NSObject>
@@ -30,7 +33,8 @@
 - (BOOL)accordion:(RKAccordionTableView *)tableView isFooterRequiredInSection:(NSInteger)sectionNumber;
 - (CGFloat)accordion:(RKAccordionTableView *)tableView heightForFooterInSection:(NSInteger)sectionNumber;
 - (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForFooterInSection:(NSInteger)sectionNumber;
-
+- (void)accordion:(UITableView *)tableView willBeginReorderingRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+- (void)accordion:(UITableView *)tableView willBeginReorderingSection:(NSInteger)sectionNumber;
 @end
 
 @protocol RKAccordionTableViewDataSource <NSObject>

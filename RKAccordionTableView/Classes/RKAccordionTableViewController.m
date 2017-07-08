@@ -35,8 +35,8 @@
     if (self.accordionDataSource) {
         _numberOfSections = [self.accordionDataSource numberOfSectionsInAccordion:self.accordionTableView];
 //        numberOfRows = _numberOfSections;
+        _rkAccordionObjectArray = [NSMutableArray new];
         if (_numberOfSections != 0) {
-            _rkAccordionObjectArray = [NSMutableArray new];
             for (NSInteger i=0; i < _numberOfSections; i++) {
                 NSInteger numberOfRowsInCurrentSection = [self.accordionDataSource numberOfRowsInSection:i accordion:self.accordionTableView];
                 RKAccordionObject *object = [[RKAccordionObject alloc] init];
@@ -430,6 +430,19 @@
     return NO;
 }
 
+- (void)tableView:(UITableView *)tableView willBeginReorderingRowAtIndexPath:(NSIndexPath *)indexPath {
+    RKAccordionObject *accordionObject = [_rkAccordionObjectArray objectAtIndex:indexPath.row];
+    if (accordionObject.objectType == AccordionSection) {
+        if ([self.accordionDelegate respondsToSelector:@selector(accordion:willBeginReorderingSection:)]) {
+            [self.accordionDelegate accordion:self.accordionTableView willBeginReorderingSection:accordionObject.sectionNumber];
+        }
+    } else if (accordionObject.objectType == AccordionRow) {
+        if ([self.accordionDelegate respondsToSelector:@selector(accordion:willBeginReorderingRow:inSection:)]) {
+            [self.accordionDelegate accordion:self.accordionTableView willBeginReorderingRow:accordionObject.rowNumber inSection:accordionObject.sectionNumber];
+        }
+    }
+}
+
 - (void)recogniozerDidTap:(UITapGestureRecognizer *)recognizer {
     if (_isExpandedArray == nil) {
         _isExpandedArray = [NSMutableArray new];
@@ -559,6 +572,17 @@
             }
         }
     }
+}
+
+- (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+rowNumber+1 inSection:0];
+    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)scrollToFooterInSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [_rkAccordionObjectArray objectAtIndex:sectionNumber];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+object.numberOfRows+1 inSection:0];
+    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)removePreviousSections {

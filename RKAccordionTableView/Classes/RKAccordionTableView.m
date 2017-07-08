@@ -50,4 +50,12 @@
     [self.rkAccordionTableViewController tapActionForSection:section];
 }
 
+- (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    [self.rkAccordionTableViewController scrollToRow:rowNumber inSection:sectionNumber];
+}
+
+- (void)scrollToFooterInSection:(NSInteger)sectionNumber {
+    [self.rkAccordionTableViewController scrollToFooterInSection:sectionNumber];
+}
+
 @end
