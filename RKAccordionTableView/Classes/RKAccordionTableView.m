@@ -58,4 +58,16 @@
     [self.rkAccordionTableViewController scrollToFooterInSection:sectionNumber];
 }
 
+- (void)reloadAndRestoreExpandedState {
+    [self.rkAccordionTableViewController reloadAndRestoreExpandedState];
+}
+
+- (void)cancelMoveSection {
+    [self.rkAccordionTableViewController cancelMoveSection];
+}
+
+- (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
+    [self.rkAccordionTableViewController moveAccordionSection:fromSectionNumber toSection:toSectionNumber];
+}
+
 @end

@@ -22,4 +22,8 @@
 - (void)tapActionForSection:(NSInteger)section;
 - (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
 - (void)scrollToFooterInSection:(NSInteger)sectionNumber;
+- (void)reloadAndRestoreExpandedState;
+- (void)cancelMoveSection;
+- (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
+
 @end
