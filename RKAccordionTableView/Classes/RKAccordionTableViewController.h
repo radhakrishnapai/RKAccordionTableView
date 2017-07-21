@@ -19,7 +19,7 @@
 @property (nonatomic, weak) RKAccordionTableView *accordionTableView;
 
 - (void)reloadValues;
-- (void)tapActionForSection:(NSInteger)section;
+- (BOOL)tapActionForSection:(NSInteger)section;
 - (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
 - (void)scrollToFooterInSection:(NSInteger)sectionNumber;
 - (void)reloadAndRestoreExpandedState;

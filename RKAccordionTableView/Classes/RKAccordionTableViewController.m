@@ -387,7 +387,7 @@
     }
 }
 
-- (void)tapActionForSection:(NSInteger)section {
+- (BOOL)tapActionForSection:(NSInteger)section {
     if (_isExpandedArray == nil) {
         _isExpandedArray = [NSMutableArray new];
         for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
@@ -472,6 +472,7 @@
             }
         }
     }
+    return accordionSectionObject.isExpanded;
 }
 
 - (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
