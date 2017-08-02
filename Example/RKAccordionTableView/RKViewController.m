@@ -56,6 +56,10 @@
     return 44;
 }
 
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForHeaderInSection:(NSInteger)sectionNumber {
+    return 44;
+}
+
 #pragma mark RKAccordionTableViewDataSource
 
 - (NSInteger)numberOfSectionsInAccordion:(RKAccordionTableView *)tableView {
@@ -106,6 +110,13 @@
     return cell;
 }
 
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForHeaderInSection:(NSInteger)sectionNumber {
+    CustomFooterCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomFooterCell"];
+    cell.label.text = [NSString stringWithFormat:@"Header: %ld", (long)sectionNumber];
+    cell.backgroundColor = [UIColor blueColor];
+    return cell;
+}
+
 - (BOOL)accordion:(RKAccordionTableView *)tableView canMoveRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
     return YES;
 }
@@ -115,7 +126,11 @@
 }
 
 - (BOOL)accordion:(RKAccordionTableView *)tableView isFooterRequiredInSection:(NSInteger)sectionNumber {
-    return YES;
+    return NO;
+}
+
+- (BOOL)accordion:(RKAccordionTableView *)tableView isHeaderRequiredInSection:(NSInteger)sectionNumber {
+    return NO;
 }
 
 - (void)accordion:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber {

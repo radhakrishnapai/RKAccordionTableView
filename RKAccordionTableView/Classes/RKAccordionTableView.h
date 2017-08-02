@@ -22,6 +22,7 @@
 - (BOOL)tapActionForSection:(NSInteger)section;
 - (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
 - (void)scrollToFooterInSection:(NSInteger)sectionNumber;
+- (void)scrollToHeaderInSection:(NSInteger)sectionNumber;
 - (void)reloadAndRestoreExpandedState;
 - (void)cancelMoveSection;
 - (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
@@ -34,8 +35,11 @@
 - (CGFloat)accordion:(RKAccordionTableView *)tableView heightForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
 @optional
 - (BOOL)accordion:(RKAccordionTableView *)tableView isFooterRequiredInSection:(NSInteger)sectionNumber;
+- (BOOL)accordion:(RKAccordionTableView *)tableView isHeaderRequiredInSection:(NSInteger)sectionNumber;
 - (CGFloat)accordion:(RKAccordionTableView *)tableView heightForFooterInSection:(NSInteger)sectionNumber;
+- (CGFloat)accordion:(RKAccordionTableView *)tableView heightForHeaderInSection:(NSInteger)sectionNumber;
 - (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForFooterInSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForHeaderInSection:(NSInteger)sectionNumber;
 - (void)accordion:(UITableView *)tableView willBeginReorderingRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
 - (void)accordion:(UITableView *)tableView willBeginReorderingSection:(NSInteger)sectionNumber;
 @end

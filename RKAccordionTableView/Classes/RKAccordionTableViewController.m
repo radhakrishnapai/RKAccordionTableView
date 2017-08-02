@@ -29,28 +29,35 @@
     return self;
 }
 
+#pragma mark Public Instance Methods
+
 - (void)reloadValues {
     _numberOfSections = 0;
-//    NSInteger numberOfRows = 0;
     self.sectionCountArray = [[NSMutableArray alloc] init];
+    
     if (self.accordionDataSource) {
         _numberOfSections = [self.accordionDataSource numberOfSectionsInAccordion:self.accordionTableView];
-//        numberOfRows = _numberOfSections;
         _rkAccordionObjectArray = [NSMutableArray new];
+        
         if (_numberOfSections != 0) {
-            for (NSInteger i=0; i < _numberOfSections; i++) {
+            for (NSInteger i = 0 ; i < _numberOfSections ; i++) {
                 NSInteger numberOfRowsInCurrentSection = [self.accordionDataSource numberOfRowsInSection:i accordion:self.accordionTableView];
                 RKAccordionObject *object = [[RKAccordionObject alloc] init];
                 object.sectionNumber = i;
                 object.objectType = AccordionSection;
                 object.numberOfRows = numberOfRowsInCurrentSection;
+                
                 if ([self.accordionDelegate respondsToSelector:@selector(accordion:isFooterRequiredInSection:)]) {
                     object.isFooterRequired = [self.accordionDelegate accordion:self.accordionTableView isFooterRequiredInSection:i];
                 }
-                [_rkAccordionObjectArray addObject:object];
                 
-//                numberOfRows += numberOfRowsInCurrentSection;
+                if ([self.accordionDelegate respondsToSelector:@selector(accordion:isHeaderRequiredInSection:)]) {
+                    object.isHeaderRequired = [self.accordionDelegate accordion:self.accordionTableView isHeaderRequiredInSection:i];
+                }
+                
+                [_rkAccordionObjectArray addObject:object];
                 NSInteger sectionNumber = 0;
+                
                 if (i != 0) {
                     sectionNumber = [((NSNumber *)self.sectionCountArray[i-1]) integerValue];
                     sectionNumber += _numberOfRowsinPreviousSection + 1;
@@ -59,11 +66,105 @@
                 [self.sectionCountArray insertObject:@(sectionNumber) atIndex:i];
                 _numberOfRowsinPreviousSection = numberOfRowsInCurrentSection;
             }
-            
         }
     }
     [self.accordionTableView reloadData];
 }
+
+- (BOOL)tapActionForSection:(NSInteger)section {
+    if (_isExpandedArray == nil) {
+        _isExpandedArray = [NSMutableArray new];
+        for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
+            [_isExpandedArray addObject:@0];
+        }
+    }
+    
+    RKAccordionObject *accordionSectionObject = [self objectForSection:section];
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    NSInteger numberOfRows = accordionSectionObject.numberOfRows;
+    
+    if (accordionSectionObject.isHeaderRequired) {
+        numberOfRows += 1;
+    }
+    
+    if (accordionSectionObject.isFooterRequired) {
+        numberOfRows += 1;
+    }
+    
+    if (accordionSectionObject.isExpanded == YES) {
+        accordionSectionObject.isExpanded = NO;
+        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
+        
+        if (numberOfRows != 0) {
+            for (NSInteger i = sectionIndexPath.row + 1 ; i <= sectionIndexPath.row+numberOfRows ; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+            [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+            [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    } else {
+        
+        if (self.accordionTableView.allowMultipleSectionsOpen == NO) {
+            [self removePreviousSections];
+        }
+        
+        accordionSectionObject.isExpanded = YES;
+        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
+        
+        if (numberOfRows != 0) {
+            for (NSInteger i = sectionIndexPath.row + 1 ; i <= sectionIndexPath.row + numberOfRows ; i++) {
+                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+                accordionObject.rowNumber = i - sectionIndexPath.row - 1;
+                accordionObject.objectType = AccordionRow;
+                
+                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                
+                if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
+                    accordionObject.objectType = AccordionHeader;
+                }
+                
+                if (accordionSectionObject.isFooterRequired && i == sectionIndexPath.row + numberOfRows) {
+                    accordionObject.objectType = AccordionFooter;
+                }
+                
+                [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
+            }
+            [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
+    return accordionSectionObject.isExpanded;
+}
+
+- (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+rowNumber+1 inSection:0];
+    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)scrollToFooterInSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [_rkAccordionObjectArray objectAtIndex:sectionNumber];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+object.numberOfRows+1 inSection:0];
+    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)scrollToHeaderInSection:(NSInteger)sectionNumber {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+1 inSection:0];
+    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)reloadAndRestoreExpandedState {
+    _previousExpandedArray = [_isExpandedArray mutableCopy];
+    [self reloadValues];
+    _isExpandedArray = _previousExpandedArray;
+    [self restoreExpandedState];
+}
+
+- (void)cancelMoveSection {
+    _isExpandedArray = _previousExpandedArray;
+}
+
+#pragma mark Private Instance Methods
 
 - (void)reorderControlCustomisationForCell:(UITableViewCell *)cell {
     UIView* reorderControl = [self huntedSubviewWithClassName:@"UITableViewCellReorderControl" forView:cell];
@@ -94,13 +195,11 @@
     }
 }
 
-- (UIView*)huntedSubviewWithClassName:(NSString*)className forView:(UIView *)view
-{
+- (UIView*)huntedSubviewWithClassName:(NSString*)className forView:(UIView *)view {
     if([[[view class] description] isEqualToString:className])
         return view;
     
-    for(UIView* subView in view.subviews)
-    {
+    for(UIView* subView in view.subviews) {
         UIView* huntedSubview = [self huntedSubviewWithClassName:className forView:subView];
         
         if(huntedSubview != nil)
@@ -125,45 +224,182 @@
     for (int i=0; i<_numberOfSections; i++) {
         RKAccordionObject *accordionSectionObject = [self objectForSection:i];
         if ([_isExpandedArray[accordionSectionObject.sectionNumber] isEqual:@1]) {
-            NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-            accordionSectionObject.isExpanded = YES;
-            NSInteger row = [_rkAccordionObjectArray indexOfObject:accordionSectionObject];
+            NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
             NSMutableArray *indexPaths = [NSMutableArray new];
+            NSInteger numberOfRows = accordionSectionObject.numberOfRows;
+            
+            if (accordionSectionObject.isHeaderRequired) {
+                numberOfRows += 1;
+            }
+            
+            if (accordionSectionObject.isFooterRequired) {
+                numberOfRows += 1;
+            }
             if (numberOfRows != 0) {
-                NSInteger i = 0;
-                for (i=row+1; i<=row+numberOfRows; i++) {
+                for (NSInteger i = sectionIndexPath.row + 1 ; i <= sectionIndexPath.row + numberOfRows ; i++) {
                     RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
                     accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                    accordionObject.rowNumber = i - row - 1;
+                    accordionObject.rowNumber = i - sectionIndexPath.row - 1;
                     accordionObject.objectType = AccordionRow;
-                    [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
+                    
                     [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                    
+                    if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
+                        accordionObject.objectType = AccordionHeader;
+                    }
+                    
+                    if (accordionSectionObject.isFooterRequired && i == sectionIndexPath.row + numberOfRows) {
+                        accordionObject.objectType = AccordionFooter;
+                    }
+                    
+                    [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
                 }
-//                [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+                [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
             }
-            if (accordionSectionObject.isFooterRequired) {
-                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
-                accordionSectionObject.isExpanded = YES;
-                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                accordionObject.objectType = AccordionFooter;
-                [_rkAccordionObjectArray insertObject:accordionObject atIndex:row+numberOfRows+1];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            
+            if (self.accordionTableView.allowMultipleSectionsOpen == NO) {
+                break;
             }
         }
+//            NSInteger row = [_rkAccordionObjectArray indexOfObject:accordionSectionObject];
+//            NSMutableArray *indexPaths = [NSMutableArray new];
+//            if (accordionSectionObject.isHeaderRequired) {
+//                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
+//                accordionSectionObject.isExpanded = YES;
+//                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+//                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+//                accordionObject.objectType = AccordionHeader;
+//                [_rkAccordionObjectArray insertObject:accordionObject atIndex:row+1];
+//                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//                numberOfRows += 1;
+//            }
+//            if (numberOfRows != 0) {
+//                NSInteger j = row;
+//                if (accordionSectionObject.isHeaderRequired) {
+//                    j += 1;
+//                }
+//                for (j += 1; j<=row+numberOfRows; j++) {
+//                    RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+//                    accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+//                    accordionObject.rowNumber = j - row - 1;
+//                    accordionObject.objectType = AccordionRow;
+//                    [_rkAccordionObjectArray insertObject:accordionObject atIndex:j];
+//                    [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//                }
+//            }
+//            if (accordionSectionObject.isFooterRequired) {
+//                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
+//                accordionSectionObject.isExpanded = YES;
+//                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
+//                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
+//                accordionObject.objectType = AccordionFooter;
+//                [_rkAccordionObjectArray insertObject:accordionObject atIndex:row+numberOfRows+1];
+//                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//            }
+//        }
     }
     [self.accordionTableView reloadData];
 }
 
-- (void)reloadAndRestoreExpandedState {
+- (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
     _previousExpandedArray = [_isExpandedArray mutableCopy];
-    [self reloadValues];
-    _isExpandedArray = _previousExpandedArray;
-    [self restoreExpandedState];
+    NSNumber *fromSectionExpandedState = _isExpandedArray[fromSectionNumber];
+    [_isExpandedArray removeObjectAtIndex:fromSectionNumber];
+    [_isExpandedArray insertObject:fromSectionExpandedState atIndex:toSectionNumber];
 }
 
-- (void)cancelMoveSection {
-    _isExpandedArray = _previousExpandedArray;
+- (void)removePreviousSections {
+    RKAccordionObject *accordionSectionObject =  nil;
+    for (RKAccordionObject *accordionObject in _rkAccordionObjectArray) {
+        if (accordionObject.objectType == AccordionSection) {
+            if (accordionObject.isExpanded == YES) {
+                accordionSectionObject = accordionObject;
+                break;
+            }
+        }
+    }
+    
+    if (accordionSectionObject) {
+        accordionSectionObject.isExpanded = NO;
+        [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@0];
+        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
+        NSMutableArray *indexPaths = [NSMutableArray new];
+        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
+        
+        if (accordionSectionObject.isHeaderRequired) {
+            numberOfRows += 1;
+        }
+        
+        if (accordionSectionObject.isFooterRequired) {
+            numberOfRows += 1;
+        }
+        
+            if (numberOfRows != 0) {
+                for (NSInteger i = sectionIndexPath.row + 1 ; i <= sectionIndexPath.row+numberOfRows ; i++) {
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                    [indexPaths addObject:indexPath];
+                }
+                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+//        [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+//        NSMutableArray *indexPaths = [NSMutableArray new];
+//        NSInteger numberOfRows = accordionObject.numberOfRows;
+//        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionObject] inSection:0];
+//        if (numberOfRows != 0) {
+//            [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+//            accordionObject.isExpanded = NO;
+//            NSInteger i = sectionIndexPath.row;
+//            if (accordionObject.isHeaderRequired) {
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//                [indexPaths addObject:indexPath];
+//                numberOfRows += 1;
+//            }
+//            for (i+=1; i<=sectionIndexPath.row+numberOfRows; i++) {
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//                [indexPaths addObject:indexPath];
+//            }
+//            if (accordionObject.isFooterRequired) {
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//                [indexPaths addObject:indexPath];
+//                numberOfRows += 1;
+//            }
+//            [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+//            [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//        } else {
+//            if (accordionObject.isHeaderRequired) {
+//                indexPaths = [NSMutableArray new];
+//                [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+//                accordionObject.isExpanded = NO;
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndexPath.row+1 inSection:0];
+//                [indexPaths addObject:indexPath];
+//                numberOfRows += 1;
+//                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, 1)]];
+//                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//            }
+//            if (accordionObject.isFooterRequired) {
+//                //                    [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+//                //                    accordionObject.isExpanded = NO;
+//                //                    NSInteger i = sectionIndexPath.row + 1;
+//                //                    if (accordionObject.isHeaderRequired) {
+//                //                        i+=1;
+//                //                    }
+//                //                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//                //                    [indexPaths addObject:indexPath];
+//                //                    numberOfRows += 1;
+//                //                    [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
+//                //                    [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//                indexPaths = [NSMutableArray new];
+//                [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
+//                accordionObject.isExpanded = NO;
+//                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndexPath.row+1 inSection:0];
+//                [indexPaths addObject:indexPath];
+//                numberOfRows += 1;
+//                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, 1)]];
+//                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//            }
+//        }
+    }
 }
 
 #pragma mark - Table view data source
@@ -189,6 +425,11 @@
                 return [self.accordionDelegate accordion:self.accordionTableView heightForRow:accordionObject.rowNumber inSection:accordionObject.sectionNumber];
             }
             break;
+        case AccordionHeader:
+            if ([self.accordionDelegate respondsToSelector:@selector(accordion:heightForHeaderInSection:)]) {
+                return [self.accordionDelegate accordion:self.accordionTableView heightForHeaderInSection:accordionObject.sectionNumber];
+            }
+            break;
         case AccordionFooter:
             if ([self.accordionDelegate respondsToSelector:@selector(accordion:heightForFooterInSection:)]) {
                 return [self.accordionDelegate accordion:self.accordionTableView heightForFooterInSection:accordionObject.sectionNumber];
@@ -208,8 +449,6 @@
     if (accordionObject.objectType == AccordionSection) {
         if (self.accordionDataSource) {
             RKAccordionCell *cell = [self.accordionDataSource accordion:self.accordionTableView cellForSection:accordionObject.sectionNumber];
-//            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recogniozerDidTap:)];
-//            [cell addGestureRecognizer:tapGestureRecognizer];
             return cell;
         } else {
             return [[UITableViewCell alloc] init];
@@ -229,58 +468,21 @@
         } else {
             return [[UITableViewCell alloc] init];
         }
+    } else if (accordionObject.objectType == AccordionHeader) {
+        if (self.accordionDelegate) {
+            RKAccordionCell *cell = [self.accordionDelegate accordion:self.accordionTableView cellForHeaderInSection:accordionObject.sectionNumber];
+            return cell;
+        } else {
+            return [[UITableViewCell alloc] init];
+        }
     }
     
     return [[RKAccordionCell alloc] init];
-    
-//    NSInteger remainder = (indexPath.row) % _numberOfSections;
-//    NSInteger quotient = (indexPath.row) / _numberOfSections;
-//    
-//    if ([self.sectionCountArray containsObject:@(indexPath.row)] == YES) {
-//        if (self.accordionDataSource) {
-//            return [self.accordionDataSource tableView:self.accordionTableView cellForSectionAtIndexPath:indexPath section:quotient];
-//        } else {
-//            return [[UITableViewCell alloc] init];
-//        }
-//    } else {
-//        if (self.accordionDataSource) {
-//            return [self.accordionDataSource tableView:self.accordionTableView cellForRowAtIndexPath:indexPath row:remainder];
-//        } else {
-//            return [[UITableViewCell alloc] init];
-//        }
-//    }
-    
-    
-    
-//    if (remainder == 0) {
-//        if (self.accordionDataSource) {
-//          return [self.accordionDataSource tableView:self.accordionTableView cellForSectionAtIndexPath:indexPath section:quotient];
-//        } else {
-//            return [[UITableViewCell alloc] init];
-//        }
-//    } else {
-//        if (self.accordionDataSource) {
-//            return [self.accordionDataSource tableView:self.accordionTableView cellForRowAtIndexPath:indexPath row:remainder];
-//        } else {
-//            return [[UITableViewCell alloc] init];
-//        }
-//    }
 }
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    RKAccordionObject *accordionObject = [_rkAccordionObjectArray objectAtIndex:indexPath.row];
-//    [self reorderControlCustomisationForCell:cell];
-    if (accordionObject.objectType == AccordionSection) {
-    } else {
-        
-    }
-}
-
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    
     RKAccordionObject *accordionObject = [_rkAccordionObjectArray objectAtIndex:indexPath.row];
     
     if (accordionObject.objectType == AccordionSection) {
@@ -288,11 +490,9 @@
     } else {
         return YES;
     }
-    
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
 }
 
@@ -302,17 +502,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
     return  NO;
-}
-
-- (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber {
-        _previousExpandedArray = [_isExpandedArray mutableCopy];
-        NSNumber *fromSectionExpandedState = _isExpandedArray[fromSectionNumber];
-        [_isExpandedArray removeObjectAtIndex:fromSectionNumber];
-        [_isExpandedArray insertObject:fromSectionExpandedState atIndex:toSectionNumber];
-}
-
-- (void)accordion:(RKAccordionTableView *)tableView moveRow:(NSInteger)fromRowNumber inSection:(NSInteger)fromSectionNumber toRow:(NSInteger)toRowNumber inSection:(NSInteger)toSectionNumber {
-    
 }
 
 // Override to support conditional rearranging of the table view.
@@ -343,201 +532,13 @@
     }
 }
 
-- (void)recogniozerDidTap:(UITapGestureRecognizer *)recognizer {
-    if (_isExpandedArray == nil) {
-        _isExpandedArray = [NSMutableArray new];
-        for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
-            [_isExpandedArray addObject:@0];
-        }
-    }
-    UITableViewCell *cell = (UITableViewCell *)recognizer.view;
-    NSIndexPath *indexPath = [self.accordionTableView indexPathForCell:cell];
-    RKAccordionObject *accordionSectionObject = [_rkAccordionObjectArray objectAtIndex:indexPath.row];
-    NSMutableArray *indexPaths = [NSMutableArray new];
-    if (accordionSectionObject.isExpanded == YES) {
-        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-        if (numberOfRows != 0) {
-            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@0];
-            accordionSectionObject.isExpanded = NO;
-            for (NSInteger i=indexPath.row+1; i<=indexPath.row+numberOfRows; i++) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                [indexPaths addObject:indexPath];
-            }
-            [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row+1, numberOfRows)]];
-            [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-//            [self.accordionTableView reloadData];
-        }
-    } else {
-        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-        
-        if (numberOfRows != 0) {
-            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
-            accordionSectionObject.isExpanded = YES;
-            for (NSInteger i=indexPath.row+1; i<=indexPath.row+numberOfRows; i++) {
-                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                accordionObject.rowNumber = i - indexPath.row - 1;
-                accordionObject.objectType = AccordionRow;
-                [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-            [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-//            [self.accordionTableView reloadData];
-        }
-    }
-}
-
-- (BOOL)tapActionForSection:(NSInteger)section {
-    if (_isExpandedArray == nil) {
-        _isExpandedArray = [NSMutableArray new];
-        for (int i = 0 ; i < _rkAccordionObjectArray.count; i++) {
-            [_isExpandedArray addObject:@0];
-        }
-    }
-//    UITableViewCell *cell = (UITableViewCell *)sender.view;
-//    NSIndexPath *indexPath = [self.accordionTableView indexPathForCell:cell];
-    RKAccordionObject *accordionSectionObject = [self objectForSection:section];
-    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
-    NSMutableArray *indexPaths = [NSMutableArray new];
-    if (accordionSectionObject.isExpanded == YES) {
-        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-        if (numberOfRows != 0) {
-            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@0];
-            accordionSectionObject.isExpanded = NO;
-            NSInteger i = 0;
-            for (i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                [indexPaths addObject:indexPath];
-            }
-            if (accordionSectionObject.isFooterRequired) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                [indexPaths addObject:indexPath];
-                numberOfRows += 1;
-            }
-            
-            [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
-            [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            //            [self.accordionTableView reloadData];
-        } else {
-            if (accordionSectionObject.isFooterRequired) {
-                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@0];
-                accordionSectionObject.isExpanded = NO;
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndexPath.row+1 inSection:0];
-                [indexPaths addObject:indexPath];
-                numberOfRows += 1;
-                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
-                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-        }
-    } else {
-        if (self.accordionTableView.allowMultipleSectionsOpen == NO) {
-            [self removePreviousSections];
-        }
-        RKAccordionObject *accordionSectionObject = [self objectForSection:section];
-        NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionSectionObject] inSection:0];
-        NSMutableArray *indexPaths = [NSMutableArray new];
-        NSInteger numberOfRows = accordionSectionObject.numberOfRows;
-        if (numberOfRows != 0) {
-            [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
-            accordionSectionObject.isExpanded = YES;
-            NSInteger i = 0;
-            for (i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
-                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                accordionObject.rowNumber = i - sectionIndexPath.row - 1;
-                accordionObject.objectType = AccordionRow;
-                [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-            if (accordionSectionObject.isFooterRequired) {
-                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                accordionObject.rowNumber = i - sectionIndexPath.row - 1;
-                accordionObject.objectType = AccordionFooter;
-                [_rkAccordionObjectArray insertObject:accordionObject atIndex:i];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-            [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            //            [self.accordionTableView reloadData];
-        } else {
-            if (accordionSectionObject.isFooterRequired) {
-                [_isExpandedArray replaceObjectAtIndex:accordionSectionObject.sectionNumber withObject:@1];
-                accordionSectionObject.isExpanded = YES;
-                RKAccordionObject *accordionObject = [[RKAccordionObject alloc] init];
-                accordionObject.sectionNumber = accordionSectionObject.sectionNumber;
-                accordionObject.objectType = AccordionFooter;
-                [_rkAccordionObjectArray insertObject:accordionObject atIndex:sectionIndexPath.row+1];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:sectionIndexPath.row+1 inSection:0]];
-                [self.accordionTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-        }
-    }
-    return accordionSectionObject.isExpanded;
-}
-
-- (void)scrollToRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+rowNumber+1 inSection:0];
-    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
-
-- (void)scrollToFooterInSection:(NSInteger)sectionNumber {
-    RKAccordionObject *object = [_rkAccordionObjectArray objectAtIndex:sectionNumber];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionNumber+object.numberOfRows+1 inSection:0];
-    [self.accordionTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
-
-- (void)removePreviousSections {
-    RKAccordionObject *accordionObject =  nil;
-    for (RKAccordionObject *accordionSectionObject in _rkAccordionObjectArray) {
-        if (accordionSectionObject.objectType == AccordionSection) {
-            if (accordionSectionObject.isExpanded == YES) {
-            accordionObject = accordionSectionObject;
-            break;
-            }
-        }
-    }
-    
-    if (accordionObject) {
-        [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
-            NSMutableArray *indexPaths = [NSMutableArray new];
-            NSInteger numberOfRows = accordionObject.numberOfRows;
-            NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForRow:[_rkAccordionObjectArray indexOfObject:accordionObject] inSection:0];
-            if (numberOfRows != 0) {
-                [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
-                accordionObject.isExpanded = NO;
-                NSInteger i = 0;
-                for (i=sectionIndexPath.row+1; i<=sectionIndexPath.row+numberOfRows; i++) {
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                    [indexPaths addObject:indexPath];
-                }
-                if (accordionObject.isFooterRequired) {
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-                    [indexPaths addObject:indexPath];
-                    numberOfRows += 1;
-                }
-                [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
-                [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            } else {
-                if (accordionObject.isFooterRequired) {
-                    [_isExpandedArray replaceObjectAtIndex:accordionObject.sectionNumber withObject:@0];
-                    accordionObject.isExpanded = NO;
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndexPath.row+1 inSection:0];
-                    [indexPaths addObject:indexPath];
-                    numberOfRows += 1;
-                    [_rkAccordionObjectArray removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(sectionIndexPath.row+1, numberOfRows)]];
-                    [self.accordionTableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
-            }
-        }
-}
-
 #pragma mark UITableViewDataSource
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     RKAccordionObject *accordionObjectFrom = [_rkAccordionObjectArray objectAtIndex:fromIndexPath.row];
     RKAccordionObject *accordionObjectTo = [_rkAccordionObjectArray objectAtIndex:toIndexPath.row];
-    if ([accordionObjectFrom isEqual:accordionObjectTo] != YES) {
+    if (![accordionObjectFrom isEqual:accordionObjectTo]) {
         NSInteger fromSectionNumber = accordionObjectFrom.sectionNumber, toSectionNumber = accordionObjectTo.sectionNumber;
         if (accordionObjectFrom.objectType == AccordionSection) {
             if (accordionObjectTo.objectType == AccordionSection) {
@@ -570,7 +571,9 @@
                 } else {
                     if (accordionObjectTo.objectType == AccordionFooter) {
                         [self.accordionTableView reloadData];
-                    }else {
+                    } else if (accordionObjectTo.objectType == AccordionHeader) {
+                        [self.accordionTableView reloadData];
+                    } else {
                         if([self.accordionDataSource respondsToSelector:@selector(accordion:moveRow:inSection:toRow:inSection:)]) {
                             [self.accordionDataSource accordion:self.accordionTableView moveRow:fromRowNumber inSection:fromSectionNumber toRow:toRowNumber inSection:toSectionNumber];
                         }
@@ -581,6 +584,8 @@
                 
             } else {
                 if (accordionObjectTo.objectType == AccordionFooter) {
+                    [self.accordionTableView reloadData];
+                } else if (accordionObjectTo.objectType == AccordionHeader) {
                     [self.accordionTableView reloadData];
                 } else {
                     if([self.accordionDataSource respondsToSelector:@selector(accordion:moveRow:inSection:toRow:inSection:)]) {

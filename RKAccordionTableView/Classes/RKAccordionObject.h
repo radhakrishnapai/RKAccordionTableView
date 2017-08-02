@@ -11,6 +11,7 @@
 typedef enum: NSUInteger {
     AccordionSection,
     AccordionRow,
+    AccordionHeader,
     AccordionFooter,
 } AccordionObjectType;
 
@@ -24,5 +25,6 @@ typedef enum: NSUInteger {
 @property (nonatomic, assign) BOOL isDraggable;
 @property (nonatomic, assign) BOOL isSwipingEnabled;
 @property (nonatomic, assign) BOOL isFooterRequired;
+@property (nonatomic, assign) BOOL isHeaderRequired;
 
 @end

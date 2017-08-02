@@ -58,6 +58,10 @@
     [self.rkAccordionTableViewController scrollToFooterInSection:sectionNumber];
 }
 
+- (void)scrollToHeaderInSection:(NSInteger)sectionNumber {
+    [self.rkAccordionTableViewController scrollToHeaderInSection:sectionNumber];
+}
+
 - (void)reloadAndRestoreExpandedState {
     [self.rkAccordionTableViewController reloadAndRestoreExpandedState];
 }
