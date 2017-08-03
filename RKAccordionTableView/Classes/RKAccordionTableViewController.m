@@ -132,9 +132,18 @@
                 
                 [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 
-                if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
-                    accordionObject.objectType = AccordionHeader;
+                if (accordionSectionObject.isHeaderRequired) {
+                    accordionObject.rowNumber -= 1;
+                    if (i == sectionIndexPath.row + 1) {
+                        accordionObject.objectType = AccordionHeader;
+                    }
                 }
+                
+//                if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
+//                    accordionObject.objectType = AccordionHeader;
+//                } else {
+//                    
+//                }
                 
                 if (accordionSectionObject.isFooterRequired && i == sectionIndexPath.row + numberOfRows) {
                     accordionObject.objectType = AccordionFooter;
@@ -275,9 +284,16 @@
                     
                     [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                     
-                    if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
-                        accordionObject.objectType = AccordionHeader;
+                    if (accordionSectionObject.isHeaderRequired) {
+                        accordionObject.rowNumber -= 1;
+                        if (i == sectionIndexPath.row + 1) {
+                            accordionObject.objectType = AccordionHeader;
+                        }
                     }
+                    
+//                    if (accordionSectionObject.isHeaderRequired && i == sectionIndexPath.row + 1) {
+//                        accordionObject.objectType = AccordionHeader;
+//                    }
                     
                     if (accordionSectionObject.isFooterRequired && i == sectionIndexPath.row + numberOfRows) {
                         accordionObject.objectType = AccordionFooter;
