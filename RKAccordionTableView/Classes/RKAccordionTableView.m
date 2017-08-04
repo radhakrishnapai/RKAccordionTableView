@@ -74,4 +74,41 @@
     [self.rkAccordionTableViewController moveAccordionSection:fromSectionNumber toSection:toSectionNumber];
 }
 
+- (RKAccordionCell *)cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    if (self.rkAccordionTableViewController.accordionDataSource) {
+        RKAccordionCell *cell = [self.accordionDataSource accordion:self cellForRow:rowNumber inSection:sectionNumber];
+        return cell;
+    } else {
+        return [[RKAccordionCell alloc] init];
+    }
+}
+
+- (RKAccordionCell *)cellForSection:(NSInteger)sectionNumber {
+    if (self.rkAccordionTableViewController.accordionDataSource) {
+        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDataSource accordion:self cellForSection:sectionNumber];
+        return cell;
+    } else {
+        return [[RKAccordionCell alloc] init];
+    }
+}
+
+- (RKAccordionCell *)cellForFooterInSection:(NSInteger)sectionNumber {
+    if (self.accordionDelegate) {
+        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDelegate accordion:self cellForFooterInSection:sectionNumber];
+        return cell;
+    } else {
+        return [[RKAccordionCell alloc] init];
+    }
+
+}
+
+- (RKAccordionCell *)cellForHeaderInSection:(NSInteger)sectionNumber {
+    if (self.accordionDelegate) {
+        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDelegate accordion:self cellForHeaderInSection:sectionNumber];
+        return cell;
+    } else {
+        return [[RKAccordionCell alloc] init];
+    }
+}
+
 @end

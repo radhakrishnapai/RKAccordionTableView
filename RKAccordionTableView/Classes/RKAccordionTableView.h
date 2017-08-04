@@ -26,6 +26,10 @@
 - (void)reloadAndRestoreExpandedState;
 - (void)cancelMoveSection;
 - (void)moveAccordionSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
+- (RKAccordionCell *)cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)cellForSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)cellForFooterInSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)cellForHeaderInSection:(NSInteger)sectionNumber;
 
 @end
 
