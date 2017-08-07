@@ -75,40 +75,19 @@
 }
 
 - (RKAccordionCell *)cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
-    if (self.rkAccordionTableViewController.accordionDataSource) {
-        RKAccordionCell *cell = [self.accordionDataSource accordion:self cellForRow:rowNumber inSection:sectionNumber];
-        return cell;
-    } else {
-        return [[RKAccordionCell alloc] init];
-    }
+    return [self.rkAccordionTableViewController cellForRow:rowNumber inSection:sectionNumber];
 }
 
 - (RKAccordionCell *)cellForSection:(NSInteger)sectionNumber {
-    if (self.rkAccordionTableViewController.accordionDataSource) {
-        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDataSource accordion:self cellForSection:sectionNumber];
-        return cell;
-    } else {
-        return [[RKAccordionCell alloc] init];
-    }
+    return [self.rkAccordionTableViewController cellForSection:sectionNumber];
 }
 
 - (RKAccordionCell *)cellForFooterInSection:(NSInteger)sectionNumber {
-    if (self.accordionDelegate) {
-        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDelegate accordion:self cellForFooterInSection:sectionNumber];
-        return cell;
-    } else {
-        return [[RKAccordionCell alloc] init];
-    }
-
+    return [self.rkAccordionTableViewController cellForFooterInSection:sectionNumber];
 }
 
 - (RKAccordionCell *)cellForHeaderInSection:(NSInteger)sectionNumber {
-    if (self.accordionDelegate) {
-        RKAccordionCell *cell = [self.rkAccordionTableViewController.accordionDelegate accordion:self cellForHeaderInSection:sectionNumber];
-        return cell;
-    } else {
-        return [[RKAccordionCell alloc] init];
-    }
+    return [self.rkAccordionTableViewController cellForHeaderInSection:sectionNumber];
 }
 
 @end

@@ -193,6 +193,44 @@
     }
 }
 
+- (RKAccordionCell *)cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [self objectForSection:sectionNumber];
+    NSInteger sectionIndex = [_rkAccordionObjectArray indexOfObject:object];
+    if (object.isHeaderRequired) {
+        sectionIndex += 1;
+    }
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndex+object.numberOfRows inSection:0];
+    return [_accordionTableView cellForRowAtIndexPath:indexPath];
+}
+
+- (RKAccordionCell *)cellForSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [self objectForSection:sectionNumber];
+    NSInteger sectionIndex = [_rkAccordionObjectArray indexOfObject:object];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndex inSection:0];
+    return [_accordionTableView cellForRowAtIndexPath:indexPath];
+}
+
+- (RKAccordionCell *)cellForFooterInSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [self objectForSection:sectionNumber];
+    NSInteger sectionIndex = [_rkAccordionObjectArray indexOfObject:object];
+    if (object.isHeaderRequired) {
+        sectionIndex += 1;
+    }
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndex+object.numberOfRows+1 inSection:0];
+    return [_accordionTableView cellForRowAtIndexPath:indexPath];
+}
+
+- (RKAccordionCell *)cellForHeaderInSection:(NSInteger)sectionNumber {
+    RKAccordionObject *object = [self objectForSection:sectionNumber];
+    if (object.isHeaderRequired) {
+        NSInteger sectionIndex = [_rkAccordionObjectArray indexOfObject:object];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sectionIndex+1 inSection:0];
+        return [_accordionTableView cellForRowAtIndexPath:indexPath];
+    } else {
+        return nil;
+    }
+}
+
 #pragma mark Private Instance Methods
 
 - (void)reorderControlCustomisationForCell:(UITableViewCell *)cell {
