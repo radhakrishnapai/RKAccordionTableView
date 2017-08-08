@@ -133,7 +133,9 @@
                 [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 
                 if (accordionSectionObject.isHeaderRequired) {
+                    // Change rownumber if header is required, because rownumber must always start with 0
                     accordionObject.rowNumber -= 1;
+                    // Checking if first iteration, because this code must execute only once
                     if (i == sectionIndexPath.row + 1) {
                         accordionObject.objectType = AccordionHeader;
                     }
@@ -452,7 +454,7 @@
     
     if (accordionObject.objectType == AccordionSection) {
         if (self.accordionDataSource) {
-            RKAccordionCell *cell = [self.accordionDataSource accordion:self.accordionTableView cellForSection:accordionObject.sectionNumber];
+            RKAccordionCell *cell = [self.accordionDataSource accordion:self.accordionTableView cellForSection:accordionObject.sectionNumber expanded:accordionObject.isExpanded];
             return cell;
         } else {
             return [[UITableViewCell alloc] init];

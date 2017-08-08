@@ -57,7 +57,7 @@
 - (NSInteger)numberOfSectionsInAccordion:(RKAccordionTableView *)tableView;
 - (NSInteger)numberOfRowsInSection:(NSInteger)section accordion:(RKAccordionTableView *)tableView;
 - (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForRow:(NSInteger)rowNumber inSection:(NSInteger)sectionNumber;
-- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForSection:(NSInteger)sectionNumber;
+- (RKAccordionCell *)accordion:(RKAccordionTableView *)tableView cellForSection:(NSInteger)sectionNumber expanded:(BOOL)isExpanded;
 
 @optional
 - (void)accordion:(RKAccordionTableView *)tableView moveSection:(NSInteger)fromSectionNumber toSection:(NSInteger)toSectionNumber;
