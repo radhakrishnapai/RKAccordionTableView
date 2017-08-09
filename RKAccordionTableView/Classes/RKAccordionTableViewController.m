@@ -557,11 +557,11 @@
                 if (accordionObjectTo.sectionNumber > accordionObjectFrom.sectionNumber) {
                     [self moveAccordionSection:accordionObjectFrom.sectionNumber toSection:accordionObjectTo.sectionNumber];
                 } else {
-                    if (fromSectionNumber == toSectionNumber + 1) {
-                        [self.accordionTableView reloadData];
-                    } else {
+//                    if (fromSectionNumber == toSectionNumber + 1) {
+//                        [self.accordionTableView reloadData];
+//                    } else {
                         [self moveAccordionSection:accordionObjectFrom.sectionNumber toSection:accordionObjectTo.sectionNumber + 1];
-                    }
+//                    }
                 }
             }
         } else {
