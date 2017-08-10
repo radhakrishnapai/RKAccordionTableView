@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RKAccordionTableView"
-  s.version          = “1.0.1”
+  s.version          = "1.0.1"
   s.summary          = 'An Advanced accordion for iOS.'
   s.description      = 'RKAccordionTableView is an advanced accordion built upon UITableView.'
   s.homepage         = 'https://github.com/radhakrishnapai/RKAccordionTableView'
